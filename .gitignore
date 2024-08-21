@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.venv/
+gapminder_data_files/
+.env
+rsconnect/
+rsconnect-python/
+.vscode

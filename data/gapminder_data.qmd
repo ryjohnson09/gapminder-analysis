@@ -1,0 +1,97 @@
+---
+title: "Gapminder Data"
+format: html
+---
+
+```{r}
+#| label: setup
+#| output: false
+#| echo: false
+
+library(tidyverse)
+library(skimr)
+library(pins)
+library(cowplot)
+```
+
+## Read Data
+
+```{r}
+#| label: read-data
+#| code-fold: true
+
+gapminder <- read_csv("gapminder.csv", show_col_types = F)
+
+skim(gapminder)
+```
+
+## Visualize the data using ggplot2
+```{r}
+#| label: visualize-data
+#| code-fold: true
+
+# Life Exp vs Continent
+lifeExp_continent <- ggplot(gapminder, aes(x = continent, y = lifeExp)) +
+  geom_boxplot(aes(fill = continent)) +
+  labs(
+    title = "Life Expectancy Across Continents",
+    x = "Continent",
+    y = "Life Expectancy (Years)"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_blank()
+  )
+
+# Life Exp vs year
+lifeExp_year <- ggplot(gapminder, aes(x = year, y = lifeExp)) +
+  geom_smooth(method = "loess", formula = y ~ x) +
+  labs(
+    title = "Life Expectancy by Year",
+    x = "Year",
+    y = "Life Expectancy (Years)"
+  ) +
+  theme_minimal()
+
+# Life Exp vs GDP
+lifeExp_gdp <- ggplot(gapminder, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point(alpha = 0.7) +
+  labs(
+    title = "Life Expectancy by GDP Per-Capita",
+    x = "GDP Per-Capita",
+    y = "Life Expectancy (Years)"
+  ) +
+  scale_x_log10() +
+  theme_minimal()
+
+# Life Exp vs Population
+lifeExp_pop <- ggplot(gapminder, aes(x = pop, y = lifeExp)) +
+  geom_point(alpha = 0.7) +
+  labs(
+    title = "Life Expectancy by Population",
+    x = "Population",
+    y = "Life Expectancy (Years)"
+  ) +
+  scale_x_log10() +
+  theme_minimal()
+
+# Combine into single plot using cowplot
+plot_grid(lifeExp_continent, lifeExp_year, lifeExp_gdp, lifeExp_pop)
+```
+
+## Pin data to Posit Connect
+
+In many cases you'll need to do some type of data transformation which results in a "clean" dataset. The `gapminder` dataset is already very clean so we'll pass it through to the next step unmodified.
+
+Let's pin it to Posit Connect so that others, or other content, can have access to it!
+
+```{r}
+#| label: pin-data
+
+# Register Posit Connect as our pinning "board"
+board <- board_connect()
+
+# Pin the clean housing data to Posit Connect
+pin_write(gapminder, board = board, name = "ryjohnson09/gapminder", type = "csv")
+```
+
