@@ -8,3 +8,4 @@ gapminder_data_files/
 rsconnect/
 rsconnect-python/
 .vscode
+__pycache__/
