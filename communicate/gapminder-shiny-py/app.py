@@ -3,6 +3,7 @@ import os
 import vetiver
 import pandas as pd
 from dotenv import load_dotenv
+import pins
 
 load_dotenv()
 
@@ -11,14 +12,50 @@ api_url = "https://pub.conf.posit.team/public/gapminder_model_rf"
 endpoint = vetiver.vetiver_endpoint(api_url + "/predict")
 api_key = os.getenv("CONNECT_API_KEY") 
 
+# Get pinned gapminder data
+server = os.getenv('CONNECT_SERVER')
+board = pins.board_connect(server_url=server, api_key=api_key, allow_pickle_read=True)
+gapminder = board.pin_read("ryjohnson09/gapminder")
+
 # User Interface
-app_ui = ui.page_fluid(
-    ui.input_slider("year", 
-                    "Select Year:", 
-                    min=pd.to_datetime("1950-01-01"), 
-                    max=pd.to_datetime("2024-01-01"), 
-                    value=pd.to_datetime("2000-01-01"),
-                    time_format="%Y"),
+app_ui = ui.page_sidebar(
+    ui.sidebar(
+
+        # Country
+        ui.input_select("country", 
+                        "Select Country:", 
+                        choices=pd.DataFrame(gapminder)['country'].unique().tolist()),
+
+        # Continent
+        ui.input_select("continent", 
+                        "Select Continent:", 
+                        choices=pd.DataFrame(gapminder)['continent'].unique().tolist()),
+
+        # Year
+        ui.input_slider("year", 
+                        "Select Year:", 
+                        min=pd.to_datetime("1951-01-01"), 
+                        max=pd.to_datetime("2025-01-01"), 
+                        value=pd.to_datetime("2000-01-01"),
+                        time_format="%Y"),
+
+        # Population
+        ui.input_slider("pop",
+                        label="Select Population Size:",
+                        min=round(pd.DataFrame(gapminder)['pop'].min(), -3),
+                        max=round(pd.DataFrame(gapminder)['pop'].max(), -3),
+                        value=700000000,
+                        step=100),
+
+        # GDP
+        ui.input_slider("gdp",
+                        label="Select GDP Per-Capita:",
+                        min=round(pd.DataFrame(gapminder)['gdpPercap'].min(), -2),
+                        max=round(pd.DataFrame(gapminder)['gdpPercap'].max(), -2),
+                        value=57000)
+    ),
+    
+
     ui.output_text_verbatim("age")
 )
 
@@ -29,11 +66,11 @@ def server(input, output, session):
        
         # Add inputs as new data
         new_data = pd.DataFrame({
-            'country': ["Zimbabwe"], 
-            'continent': ["Africa"], 
-            'year': input.year().year, 
-            'pop': [11405000], 
-            'gdpPercap': [800]
+            'country': [input.country()], 
+            'continent': [input.continent()], 
+            'year': [input.year().year], 
+            'pop': [input.pop()], 
+            'gdpPercap': [input.gdp()]
         })
 
         # If needed, add authorization
