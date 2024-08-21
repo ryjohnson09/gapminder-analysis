@@ -8,7 +8,7 @@ import pins
 load_dotenv()
 
 # Define endpoint for API and key
-api_url = "https://pub.conf.posit.team/public/gapminder_model_rf"
+api_url = "_______"
 endpoint = vetiver.vetiver_endpoint(api_url + "/predict")
 api_key = os.getenv("CONNECT_API_KEY") 
 
