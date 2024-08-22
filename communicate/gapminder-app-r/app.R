@@ -61,7 +61,9 @@ get_country_coords <- function(country_name) {
 
 
 # UI ----------------------------------------------
+
 ui <- page_sidebar(
+  theme = bs_theme(bootswatch = bootswatch_themes()[5]),
   title = "Gapminder - Life Expectancy Predictor",
   sidebar = sidebar(
     
@@ -104,14 +106,11 @@ ui <- page_sidebar(
     actionButton("go", "Predict Life Expectancy")
     ),
   
-  
-  card(
-    leafletOutput("map")
-    ),
   layout_column_wrap(
     height = 200,
-    card(
-      plotOutput("lifeexp_plot")
+    card( 
+      plotOutput("lifeexp_plot"),
+      full_screen = TRUE
     ),
     value_box(title = "2024 Life Expectancy Prediction",
               value = textOutput("pred"),
@@ -119,7 +118,10 @@ ui <- page_sidebar(
               theme = value_box_theme(bg = "#FFFFFF", fg = "#EE6331"),
               class = "border"
     )
-  )
+  ),
+  card(
+    leafletOutput("map")
+    )
 )
 
 
