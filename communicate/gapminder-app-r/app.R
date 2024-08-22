@@ -57,23 +57,56 @@ get_country_coords <- function(country_name) {
 }
 
 
-# UI
-ui <- fluidPage(
-  titlePanel("Leaflet Map Focus by Country"),
-  sidebarLayout(
-    sidebarPanel(
-      textInput("country", "Enter a country:", value = "United States")
+# UI ----------------------------------------------
+ui <- page_sidebar(
+  title = "Gapminder - Life Expectancy Predictor",
+  sidebar = sidebar(
+    
+    
+    # Country Input
+    selectInput("country", "Select a country:", 
+                choices = unique(gapminder$country),
+                selected = "United States"),
     ),
-    mainPanel(
-      leafletOutput("map")
-    )
+  
+  card(
+    leafletOutput("map")
+    ),
+  card(
+    plotOutput("lifeexp_plot")
   )
 )
 
 
 server <- function(input, output, session) {
   
-  # Initial Leaflet Map
+  # Infer Continent from Country
+  country <- reactive({
+    gapminder %>% 
+      select(country, continent) %>% 
+      unique() %>% 
+      filter(country == input$country) %>% 
+      pull(continent)
+  })
+  
+  # LifeExp ggplot
+  output$lifeexp_plot <- renderPlot({
+    ggplot(gapminder, aes(x = year, y = lifeExp, group = country)) +
+      geom_line(aes(color = ifelse(country == input$country, input$country, "Other")),
+                linewidth = ifelse(gapminder$country == input$country, 1.5, 0.7), 
+                alpha = ifelse(gapminder$country == input$country, 1, 0.3)) +
+      scale_color_manual(values = setNames(c("gray", "red"), c("Other", input$country))) +
+      labs(title = paste("Life Expectancy of", input$country, "Compared to Other Countries"),
+           x = "Year",
+           y = "Life Expectancy",
+           color = "Country") +
+      theme_minimal() +
+      theme(
+        legend.position = "none"
+      )
+  })
+  
+  # Leaflet Map
   output$map <- renderLeaflet({
     leaflet() %>%
       addProviderTiles(providers$CartoDB.Positron) %>%
