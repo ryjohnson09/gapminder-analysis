@@ -10,6 +10,8 @@ library(rnaturalearth)
 library(sf)
 library(stringdist)
 library(ggplot2)
+library(httr)
+library(bsicons)
 
 # Setup ---------------------------------------------------------
 
@@ -96,15 +98,27 @@ ui <- page_sidebar(
       max = 120000,
       value = NULL,
       step = 100
-      )
+      ),
+    
+    # Go Button
+    actionButton("go", "Predict Life Expectancy")
     ),
   
   
   card(
     leafletOutput("map")
     ),
-  card(
-    plotOutput("lifeexp_plot")
+  layout_column_wrap(
+    height = 200,
+    card(
+      plotOutput("lifeexp_plot")
+    ),
+    value_box(title = "2024 Life Expectancy Prediction",
+              value = textOutput("pred"),
+              showcase = bsicons::bs_icon("heart-pulse"),
+              theme = value_box_theme(bg = "#FFFFFF", fg = "#EE6331"),
+              class = "border"
+    )
   )
 )
 
@@ -112,7 +126,7 @@ ui <- page_sidebar(
 server <- function(input, output, session) {
   
   # Infer Continent from Country
-  country <- reactive({
+  continent <- reactive({
     gapminder %>% 
       select(country, continent) %>% 
       unique() %>% 
@@ -120,7 +134,7 @@ server <- function(input, output, session) {
       pull(continent)
   })
   
-  # Obtaion last known pop size
+  # Obtain last known pop size
   last_pop <- reactive({
     gapminder %>% 
       select(country, year, pop) %>% 
@@ -129,7 +143,7 @@ server <- function(input, output, session) {
       pull(pop)
   })
   
-  # Obtaion last gdp
+  # Obtain last gdp
   last_gdp <- reactive({
     gapminder %>% 
       select(country, year, gdpPercap) %>% 
@@ -147,6 +161,50 @@ server <- function(input, output, session) {
   observeEvent(input$country, {
     updateNumericInput(session, "gdp", value = last_gdp())
   })
+  
+  
+  # Life Expectancy Prediction!
+  values <- reactiveValues(result = NULL)
+  
+  # Output predicted lifeexp
+  observeEvent(input$go, {
+      # New Data for API Query
+      new_data <- data.frame(
+        country = isolate(input$country),
+        continent = isolate(continent()),
+        year = 2024,
+        pop = isolate(input$pop),
+        gdpPercap = isolate(input$gdp)
+      )
+      
+      # Get prediction
+      response <- predict(
+        endpoint,
+        new_data,
+        add_headers(Authorization = paste("Key", api_key)))
+      
+      # Round predicted cases
+      values$result <- round(response$predict[[1]])
+  })
+  
+  # Clear the result if any other input changes
+  observeEvent({
+    input$country
+    input$pop
+    input$gdp
+  }, {
+    values$result <- NULL
+  }, ignoreInit = TRUE)
+  
+  # Render the prediction or a placeholder if it is NULL
+  output$pred <- renderText({
+    if (is.null(values$result)) {
+      "---"
+    } else {
+      values$result
+    }
+  })
+  
   
   # LifeExp ggplot
   output$lifeexp_plot <- renderPlot({
