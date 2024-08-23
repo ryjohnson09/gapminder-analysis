@@ -2965,6 +2965,41 @@
         "RemoteSha": "1.0.1"
       }
     },
+    "rnaturalearthdata": {
+      "Source": "CRAN",
+      "Repository": "https://p3m.dev/cran/latest",
+      "description": {
+        "Package": "rnaturalearthdata",
+        "Title": "World Vector Map Data from Natural Earth Used in 'rnaturalearth'",
+        "Version": "1.0.0",
+        "Authors@R": "c(\n  person(\n    family = \"South\",\n    given = \"Andy\",\n    email = \"southandy@gmail.com\",\n    role = c(\"aut\"),\n    comment = c(ORCID = \"0000-0003-4051-6135\")\n  ),\n  person(\n    family = \"Michael\",\n    given = \"Schramm\",\n    email = \"mpschramm@gmail.com\",\n    role = c(\"aut\")\n  ),\n  person(\n    family = \"Massicotte\",\n    given = \"Philippe\",\n    email = \"pmassicotte@hotmail.com\",\n    role = c(\"aut\", \"cre\"),\n    comment = c(ORCID = \"0000-0002-5919-4116\")\n  ))",
+        "Description": "Vector map data from <https://www.naturalearthdata.com/>. Access functions are provided in the accompanying package 'rnaturalearth'.",
+        "License": "CC0",
+        "LazyData": "true",
+        "LazyDataCompression": "xz",
+        "Encoding": "UTF-8",
+        "URL": "https://docs.ropensci.org/rnaturalearthdata/,\nhttps://github.com/ropensci/rnaturalearthdata",
+        "BugReports": "https://github.com/ropensci/rnaturalearthdata/issues",
+        "Depends": "R (>= 3.1.1)",
+        "Imports": "",
+        "Suggests": "knitr (>= 1.12.3), testthat (>= 0.9.1)",
+        "RoxygenNote": "7.3.1",
+        "NeedsCompilation": "no",
+        "Packaged": "2024-02-09 14:10:35 UTC; filoche",
+        "Author": "Andy South [aut] (<https://orcid.org/0000-0003-4051-6135>),\n  Schramm Michael [aut],\n  Philippe Massicotte [aut, cre]\n    (<https://orcid.org/0000-0002-5919-4116>)",
+        "Maintainer": "Philippe Massicotte <pmassicotte@hotmail.com>",
+        "Repository": "RSPM",
+        "Date/Publication": "2024-02-09 16:50:02 UTC",
+        "Built": "R 4.4.0; ; 2024-04-24 21:58:39 UTC; unix",
+        "RemoteType": "standard",
+        "RemotePkgRef": "rnaturalearthdata",
+        "RemoteRef": "rnaturalearthdata",
+        "RemoteRepos": "https://p3m.dev/cran/__linux__/jammy/latest",
+        "RemoteReposName": "CRAN",
+        "RemotePkgPlatform": "source",
+        "RemoteSha": "1.0.0"
+      }
+    },
     "s2": {
       "Source": "CRAN",
       "Repository": "https://p3m.dev/cran/latest",
@@ -3891,7 +3926,7 @@
   },
   "files": {
     ".Rprofile": {
-      "checksum": "58cd7fcb23c47c6c272e9586d1330703"
+      "checksum": "87e4f6cfefe73f24ccbfab42491e3cc9"
     },
     "app.R": {
       "checksum": "c633e713c174426cfc6d9a6e34787a52"
@@ -3900,7 +3935,7 @@
       "checksum": "975222c0d83ab4fcf82324b540f71bfa"
     },
     "renv.lock": {
-      "checksum": "5ba0b4464cb5586506917ab5c3fde334"
+      "checksum": "e289536b0f0473765ce820c30b078fd0"
     }
   },
   "users": null
