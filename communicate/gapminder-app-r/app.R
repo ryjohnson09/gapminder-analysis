@@ -18,10 +18,10 @@ library(bsicons)
 
 # Read in data
 board <- pins::board_connect()
-gapminder <- pin_read(board, "ryjohnson09/gapminder")
+gapminder <- pin_read(board, Sys.getenv("PIN_NAME"))
 
 # Create vetiver endpoint
-api_url <- "https://pub.conf.posit.team/public/gapminder_model_rf"
+api_url <- Sys.getenv("API_URL")
 endpoint <- vetiver_endpoint(paste0(api_url, "/predict"))
 
 # Grab Connect API Key
