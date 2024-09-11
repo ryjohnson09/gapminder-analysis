@@ -2,20 +2,18 @@ from shiny import App, render, ui
 import os
 import vetiver
 import pandas as pd
-from dotenv import load_dotenv
 import pins
 
-load_dotenv()
-
-# Define endpoint for API and key
+# Define endpoint for API
 api_url = "_______"
-endpoint = vetiver.vetiver_endpoint(api_url + "/predict")
-api_key = os.getenv("CONNECT_API_KEY") 
+username = "_______"
+endpoint = vetiver.vetiver_endpoint(api_url + "/predict") 
 
 # Get pinned gapminder data
+api_key = os.getenv("CONNECT_API_KEY")
 server = os.getenv('CONNECT_SERVER')
 board = pins.board_connect(server_url=server, api_key=api_key, allow_pickle_read=True)
-gapminder = board.pin_read("ryjohnson09/gapminder")
+gapminder = board.pin_read(f"{username}/gapminder")
 
 # User Interface
 app_ui = ui.page_sidebar(
