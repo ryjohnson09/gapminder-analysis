@@ -8,24 +8,30 @@ format: html
 #| output: false
 #| echo: false
 
+# Load Packages
+library(duckdb)
+library(DBI)
 library(tidyverse)
 library(skimr)
 library(pins)
 library(cowplot)
 ```
 
-## Read Data
 
 ```{r}
-#| label: read-data
+#| label: extract-data-duckdb
 #| code-fold: true
 
-gapminder <- read_csv("gapminder.csv", show_col_types = F)
+# Connect to DuckDB
+con <- DBI::dbConnect(duckdb::duckdb(), "/gapminder.duckdb", read_only = TRUE)
 
-skim(gapminder)
+# Extract Data
+gapminder <- tbl(con, "gapminder") |> 
+  collect()
 ```
 
-## Visualize the data using ggplot2
+## Life Expectancy Data
+
 ```{r}
 #| label: visualize-data
 #| code-fold: true
@@ -83,15 +89,16 @@ plot_grid(lifeExp_continent, lifeExp_year, lifeExp_gdp, lifeExp_pop)
 
 In many cases you'll need to do some type of data transformation which results in a "clean" dataset. The `gapminder` dataset is already very clean so we'll pass it through to the next step unmodified.
 
-Let's pin it to Posit Connect so that others, or other content, can have access to it!
+Let's pin it to Posit Connect so that others, or other content, can have access to it! **Be sure to add in your username where you see the "___".**
 
 ```{r}
 #| label: pin-data
+#| code-fold: true
 
 # Register Posit Connect as our pinning "board"
 board <- board_connect()
 
 # Pin the clean housing data to Posit Connect
-pin_write(gapminder, board = board, name = "ryjohnson09/gapminder", type = "csv")
+pin_write(gapminder, board = board, name = "___/gapminder", type = "csv")
 ```
 

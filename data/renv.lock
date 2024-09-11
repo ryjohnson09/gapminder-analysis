@@ -405,6 +405,19 @@
       ],
       "Hash": "54ed3ea01b11e81a86544faaecfef8e2"
     },
+    "duckdb": {
+      "Package": "duckdb",
+      "Version": "1.0.0-2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "DBI",
+        "R",
+        "methods",
+        "utils"
+      ],
+      "Hash": "c68785a280aa69dbe449b3cf98fa3dd1"
+    },
     "ellipsis": {
       "Package": "ellipsis",
       "Version": "0.3.2",
