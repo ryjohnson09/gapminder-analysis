@@ -2,20 +2,24 @@
 title: "Gapminder - Predict Life Expectancy"
 format: html
 ---
+## Setup
+
+```{python}
+username = "____"
+```
+
 ## Read Pinned Data
 
 ```{python}
 import pins
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 API_KEY = os.getenv('CONNECT_API_KEY')
 SERVER = os.getenv('CONNECT_SERVER')
 
 board = pins.board_connect(server_url=SERVER, api_key=API_KEY, allow_pickle_read=True)
 
-gapminder = board.pin_read("ryjohnson09/gapminder")
+gapminder = board.pin_read(f"{username}/gapminder")
 
 gapminder
 ```
@@ -99,7 +103,7 @@ plt.title('Actual vs. Predicted Life Expectancy')
 ```{python}
 from vetiver import VetiverModel
 
-v = VetiverModel(gapminder_fit, model_name='ryjohnson09/gapminder_model_rf', prototype_data=X)
+v = VetiverModel(gapminder_fit, model_name=f'{username}/gapminder_model_rf', prototype_data=X)
 ```
 
 ## Save Model as Pin
@@ -121,35 +125,6 @@ connect_server = RSConnectServer(
     api_key=os.getenv("CONNECT_API_KEY")
 )
 
-deploy_rsconnect(board = board, pin_name = "ryjohnson09/gapminder_model_rf", connect_server = connect_server)
+deploy_rsconnect(board = board, pin_name = f"{username}/gapminder_model_rf", connect_server = connect_server)
 ```
 
-## Make a Query
-
-```{python}
-from vetiver.server import predict, vetiver_endpoint
-import pandas as pd
-
-# Add API Content URL below
-api_url = "https://pub.conf.posit.team/public/gapminder_model_rf"
-
-endpoint = vetiver_endpoint(
-    api_url + "/predict"
-)
-
-api_key=os.getenv("CONNECT_API_KEY")
-
-new_data = pd.DataFrame({
-    'country': ["Zimbabwe"], 
-    'continent': ["Africa"], 
-    'year': [2000], 
-    'pop': [11405000], 
-    'gdpPercap': [800]
-    })
-
-h = {"Authorization": f"Key {api_key}"}
-
-response = predict(endpoint=endpoint, data=new_data, headers=h)
-
-response
-```
