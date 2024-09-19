@@ -99,6 +99,6 @@ Let's pin it to Posit Connect so that others, or other content, can have access 
 board <- board_connect()
 
 # Pin the clean housing data to Posit Connect
-pin_write(gapminder, board = board, name = "ryjohnson09/gapminder", type = "csv")
+pin_write(gapminder, board = board, name = "___/gapminder", type = "csv")
 ```
 
