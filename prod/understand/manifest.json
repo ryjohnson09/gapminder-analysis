@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "locale": "en_US.UTF-8",
+  "metadata": {
+    "appmode": "quarto-static"
+  },
+  "quarto": {
+    "version": "1.4.553",
+    "engines": [
+      "jupyter"
+    ]
+  },
+  "python": {
+    "version": "3.11.9",
+    "package_manager": {
+      "name": "pip",
+      "version": "24.0",
+      "package_file": "requirements.txt"
+    }
+  },
+  "files": {
+    "requirements.txt": {
+      "checksum": "ba19426a5460886b92118c9b7a9428a7"
+    },
+    ".gitignore": {
+      "checksum": "06d306ff933a023ca365a9fbf6589381"
+    },
+    "_quarto.yml": {
+      "checksum": "2fb1094632a5f4a61b74a1cac78f978b"
+    },
+    "gapminder-fastapi/__pycache__/app.cpython-311.pyc": {
+      "checksum": "4905dde609a6a5eb3e9354072d15bb05"
+    },
+    "gapminder-fastapi/app.py": {
+      "checksum": "665db6342e75496db0425f18063da101"
+    },
+    "gapminder-fastapi/manifest.json": {
+      "checksum": "beab44048b9c4014647ab2c71aa017b6"
+    },
+    "gapminder-fastapi/requirements.txt": {
+      "checksum": "a29a8809d2665544e3e0140d1ce1b503"
+    },
+    "gapminder-fastapi/rsconnect-python/gapminder_fastapi.json": {
+      "checksum": "b244c8bef1f352e881af7a4bbc252e00"
+    },
+    "gapminder_model.qmd": {
+      "checksum": "91769f0620816fa1fec08568278f15cf"
+    }
+  }
+}
