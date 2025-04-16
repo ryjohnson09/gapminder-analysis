@@ -1,6 +1,6 @@
 # Gapminder Analysis
 
-This repository contains the an example data science workflow using the [gapminder dataset](https://www.gapminder.org/).
+This repository contains an example data science workflow using the [gapminder dataset](https://www.gapminder.org/).
 
 ![](images/workflow.jpg)
 
