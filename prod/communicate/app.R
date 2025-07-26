@@ -18,7 +18,7 @@ library(bsicons)
 
 # Read in data
 board <- pins::board_connect()
-gapminder <- pin_read(board, "ryjohnson09/gapminder)
+gapminder <- pin_read(board, "ryjohnson09/gapminder")
 
 # Create vetiver endpoint
 api_url <- Sys.getenv("API_URL")
