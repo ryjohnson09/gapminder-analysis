@@ -8,9 +8,6 @@ format: html
 #| output: false
 #| echo: false
 
-# Add you username
-username <- "____"
-
 # Load Packages
 library(duckdb)
 library(DBI)
@@ -104,6 +101,6 @@ Let's pin it to Posit Connect so that others, or other content, can have access 
 board <- board_connect()
 
 # Pin the clean housing data to Posit Connect
-pin_write(gapminder, board = board, name = paste0(username, "/gapminder"), type = "csv")
+pin_write(gapminder, board = board, name = "gapminder", type = "csv")
 ```
 
