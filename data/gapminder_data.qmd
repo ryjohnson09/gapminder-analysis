@@ -16,6 +16,9 @@ library(dbplyr)
 library(ggplot2)
 library(pins)
 library(cowplot)
+
+# Add your username here!
+username <- "____"
 ```
 
 
@@ -101,6 +104,6 @@ Let's pin it to Posit Connect so that others, or other content, can have access 
 board <- board_connect()
 
 # Pin the clean housing data to Posit Connect
-pin_write(gapminder, board = board, name = "gapminder", type = "csv")
+pin_write(gapminder, board = board, name = paste0(username, "/gapminder"), type = "csv")
 ```
 
