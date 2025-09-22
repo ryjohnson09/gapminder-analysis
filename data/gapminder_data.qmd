@@ -17,8 +17,8 @@ library(ggplot2)
 library(pins)
 library(cowplot)
 
-# Add your username here!
-username <- "____"
+# Your Username
+username <- Sys.getenv("USER")
 ```
 
 
